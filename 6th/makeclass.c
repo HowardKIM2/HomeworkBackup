@@ -16,10 +16,9 @@ typedef struct _character{
 
 void use_Skill(char key);
 void init_character(character* ch,int Str,int Int,int Dex,int Life);
-
+char _getch(void);
 int main(void){
 	char key;
-	int i = 0;
 	//create a character : magician
 	character magician; 
 
@@ -37,13 +36,10 @@ int main(void){
 	
 	//play game
 	while(1){
-		printf("%dth try\n",++i);
 		printf("Use your skill (q,w,e,r) : ");	
 		
 		//scanf("%c",&key);
-		//_getch()
-		key = getchar();
-	
+		key = _getch();
 		magician.skill(key);
 	}
 	return 0;
@@ -74,4 +70,10 @@ void init_character(character* ch,int Str,int Int,int Dex,int Life){
 	ch->stat.Int=10;
 	ch->stat.Dex=6;
 	ch->stat.Life=30;
+}
+char _getch(){
+	char buf, ch;
+	for(;(buf = getchar())!=10;)
+		ch = buf;
+	return ch;
 }
