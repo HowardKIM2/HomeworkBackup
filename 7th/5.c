@@ -20,7 +20,7 @@ int (*(*pof_test_main(float(*p2)(int,double)))(int))(int,int){
 
 int main(void){
 	int res;
-	//int (*(*)(int))(int,int)
+	
 	//res = subpof1(3,4);
 	//res = pof1(1)(3,4);
 	res = pof_test_main(pof2)(1)(3,4);
