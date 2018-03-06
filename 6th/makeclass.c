@@ -73,7 +73,10 @@ void init_character(character* ch,int Str,int Int,int Dex,int Life){
 }
 char _getch(){
 	char buf, ch;
-	for(;(buf = getchar())!=10;)
+	for(;(buf = getchar())!=10;){
 		ch = buf;
+		break;
+	}
+	printf("break point \n");
 	return ch;
 }
