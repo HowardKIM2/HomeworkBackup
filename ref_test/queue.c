@@ -17,7 +17,14 @@ int main(void){
 	queue* top = NULL;
 	char ch;
 	element data;
-	while(1){
+	int i;
+
+	for(i=0;i<6300;i++){
+		enqueue(&top,i);
+	}
+	printf("6,300 times inserted!\n");
+
+	while(0){
 		
 		printf("명령어 입력(quit('q'),insert('i'),display('p'),dequeue('d')) : ");
 		ch = _getch();
@@ -58,13 +65,15 @@ queue* get_node(void){
 }
 void enqueue(queue** top,element data){
 	queue* tmp;
+	tmp = get_node();
+	tmp->data = data;
 	if(!(*top)){
-		tmp = get_node();
-		tmp->data = data;
 		*top = tmp;
 	}
 	else
 		enqueue(&((*top)->p_node),data);
+	
+	
 }
 int dequeue(queue** top){
 	element data;
@@ -77,12 +86,11 @@ int dequeue(queue** top){
 	return data;
 }
 void disp_queue(queue** top){
-	if(*top){
-		printf("%d\n",(*top)->data);
-		disp_queue(&((*top)->p_node));
+	queue* tmp = *top;
+	while(tmp){
+		printf("data : %d\n",tmp->data);
+		tmp = tmp->p_node;
 	}
-	else
-		return;
 }
 char _getch(void){
 	char buf,ch;

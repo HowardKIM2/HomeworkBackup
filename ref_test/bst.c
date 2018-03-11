@@ -6,9 +6,13 @@ typedef struct __tree{
 	struct __tree *right;
 	struct __tree *left;
 }tree;
+typedef struct __stack{
+	element data;
+	struct __stack *p_node;
+}stack;
 
 tree* get_node(void);
-void tree_ins(tree** root,element data);
+tree* tree_ins(tree** root,element data);
 void disp_tree(tree** root);
 void del_tree(tree** root,element data);
 int main(void){
@@ -30,7 +34,7 @@ int main(void){
 			case 'i':
 				printf("data : ");
 				scanf("%d%*c",&data);
-				tree_ins(&root,data);
+				root = tree_ins(&root,data);
 				break;
 			case 'd':
 				printf("del data : ");
@@ -53,28 +57,52 @@ tree* get_node(void){
 	tmp->left = NULL;
 	return tmp;
 }
-void tree_ins(tree** root,element data){
+tree* tree_ins(tree** root,element data){
+	tree* b_root = *root;
+	tree* prev = *root;
 	if(!(*root)){
 		*root = get_node();
 		(*root)->data = data;
-		return;
+		return *root;
 	}
-	if(data < (*root)->data)
-		tree_ins(&((*root)->left),data);
-	else if(data > (*root)->data)
-		tree_ins(&((*root)->right),data);
+	while(1){
+		if(!(*root)){
+			(*root) = get_node();
+			(*root)->data = data;
+			if(prev){
+				if(prev->data > (*root)->data)
+					prev->left = *root;
+				else
+					prev->right = *root;
+			}
+			break;
+		}
+		else if(data < (*root)->data){
+			prev = *root;
+			(*root) = (*root)->left;
+		}
+		else if(data > (*root)->data){
+			prev = *root;
+			(*root) = (*root)->right;
+		}
+		else{
+			printf("duplicated data!!\n");
+			break;
+		}
+	}
+	return b_root;
 }
 void disp_tree(tree** root){
 	if(*root){
 		printf("data : %d, ",(*root)->data);
-		if((*root)->right)
-			printf("right : %d, ",(*root)->right->data);
-		else
-			printf("right : NULL, ");
 		if((*root)->left)
-			printf("left : %d\n",(*root)->left->data);
+			printf("left : %d, ",(*root)->left->data);
 		else
-			printf("left : NULL\n");
+			printf("left : NULL, ");
+		if((*root)->right)
+			printf("right : %d\n",(*root)->right->data);
+		else
+			printf("right : NULL\n");
 		disp_tree(&((*root)->left));
 		disp_tree(&((*root)->right));
 	}
