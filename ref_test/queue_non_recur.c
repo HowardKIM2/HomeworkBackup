@@ -17,7 +17,7 @@ int main(void){
 	queue* top = NULL;
 	char ch;
 	element data;
-	while(0){
+	while(1){
 		
 		printf("명령어 입력(quit('q'),insert('i'),display('p'),dequeue('d')) : ");
 		ch = _getch();
