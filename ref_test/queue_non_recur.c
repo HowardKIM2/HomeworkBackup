@@ -17,11 +17,6 @@ int main(void){
 	queue* top = NULL;
 	char ch;
 	element data;
-	int i;
-	for(i=0;i<25000000;i++){
-		enqueue(&top,i);
-	}
-	printf("25,000,000 times inserted!\n");
 	while(0){
 		
 		printf("명령어 입력(quit('q'),insert('i'),display('p'),dequeue('d')) : ");
