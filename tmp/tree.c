@@ -20,17 +20,9 @@ stack* get_stack_node(void);
 void push(stack** top,tree* data);
 tree* pop(stack** top);
 bool is_not_empty(stack** top);
+void database(void);
 int main(void){
-	tree* root = NULL;
-	ins_tree(&root,50);
-	ins_tree(&root,45);
-	ins_tree(&root,48);
-	ins_tree(&root,47);
-			
-	print_tree(&root);
-	printf("after delete\n");
-	del_tree(&root,50);
-	print_tree(&root);
+	database();
 	return 0;
 }
 tree* get_tree_node(void){
@@ -57,7 +49,7 @@ void ins_tree(tree** root,int data){
 void del_tree(tree** root,int data){
 	tree** tmp = root;
 	int max;
-	while(*tmp){
+	while(tmp){
 		if(data < (*tmp)->data)
 			tmp = &(*tmp)->left;
 		else if(data > (*tmp)->data)
@@ -68,7 +60,7 @@ void del_tree(tree** root,int data){
 			return;
 		}
 		else{
-			(*tmp) = chg_node(*tmp);
+			*tmp = chg_node(*tmp);
 			return;
 		}
 	}
@@ -77,10 +69,10 @@ void findMax(tree** root,int* max){
 	while(*root){
 		if(!(*root)->right)
 			break;
-		root = &(*root)->right;
+		*root = (*root)->right;
 	}
 	*max = (*root)->data;
-	chg_node(*root);
+	*root = chg_node(*root);
 }
 tree* chg_node(tree* root){
 	tree* tmp = root;
@@ -137,4 +129,44 @@ bool is_not_empty(stack** top){
 	if(*top)
 		return true;
 	return false;
+}
+void database(void){
+	tree* root = NULL;
+	char ins;
+	int data;
+	bool q = false;
+	while(true){
+		printf("input instruction (q:Quit, i:Insert, d:Delete, p:disP) : ");
+		scanf("%c%*c",&ins);
+		system("clear");
+		switch(ins){
+			case 'q':
+				q = true;
+				break;
+			case 'i':
+				printf("input data (num) : ");
+				scanf("%d%*c",&data);
+				ins_tree(&root,data);
+				printf("%d inserted\n",data);
+				break;
+			case 'd':
+				printf("input deleted data (num) : ");
+				scanf("%d%*c",&data);
+				del_tree(&root,data);
+				printf("%d deleted\n",data);
+				break;
+			case 'p':
+				printf("current tree : \n");
+				print_tree(&root);
+				break;
+			default :
+				ins = '\0';
+				printf("wrong instructon\n");
+				break;
+		
+		}
+		if(q)
+			break;
+	}
+	printf("quit\n");
 }

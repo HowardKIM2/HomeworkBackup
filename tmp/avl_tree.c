@@ -38,15 +38,18 @@ void ins_rand_data(avl** root,int* data);
 bool is_dup_data(int* data,int val);
 void print_data(int* data);
 void del_avl(avl** root,int data);
-void findMax(avl** root,int* max);
+void findMax(avl** root,int* max,stack** top);
 avl* chg_node(avl* root);
+void print_stack(stack** top);
 int main(void){
 	avl* root = NULL;
 	int data[13]={0,};
-	ins_rand_data(&root,data);
+	int i = 0;
+ 	ins_rand_data(&root,data);
 	printf("created data :\n");
 	print_data(data);
 	printf("after insert data to avl_tree:\n");
+	
 	print_avl(&root);
 	del_avl(&root,data[0]);
 	print_avl(&root);
@@ -120,6 +123,7 @@ int update_level(avl** root){
 		printf("Error : no data in avl tree\n");
 		return 0;
 	}
+	
 	int left = (*root)->left ? (*root)->left->lev : 0 ;
 	int right = (*root)->right ? (*root)->right->lev : 0 ;
 	if(left > right)
@@ -269,12 +273,17 @@ void del_avl(avl** root,int data){
 			break;
 		}
 	}
+	print_stack(&top);
 	if((*tmp)->left){
-		findMax(&(*tmp)->left,&max);
+		push(&top,tmp);
+		printf("%d pushed!\n",(*tmp)->data);
+		print_stack(&top);
+		findMax(&(*tmp)->left,&max,&top);
 		(*tmp)->data = max;
 	}
 	else
 		*tmp = chg_node(*tmp);
+	print_stack(&top);
 	while(is_not_empty(&top)){
 		avl **p = (avl**)pop(&top);
 		(*p)->lev = update_level(p);
@@ -283,19 +292,21 @@ void del_avl(avl** root,int data){
 			printf("%d rotate!!(by deletion)\n",(*p)->data);
 			*p = rotation(*p);
 		}
-
 	}
 }
-void findMax(avl** root,int* max){
-	avl* tmp = *root;
-	if(!tmp){
+void findMax(avl** root,int* max,stack** top){
+	avl** tmp = root;
+	if(!(*tmp)){
 		printf("Error:\n");
 		return ;
 	}
-	while(tmp->right)
-		tmp = tmp->right;
-	*max = (*root)->data;
-	tmp = chg_node(tmp);
+	while((*tmp)->right){
+		push(top,tmp);
+		printf("%d pushed!!\n",(*tmp)->data);
+		tmp = &(*tmp)->right;
+	}
+	*max = (*tmp)->data;
+	*tmp = chg_node(*tmp);
 }
 avl* chg_node(avl* root){
 	avl* tmp = root;
@@ -305,4 +316,12 @@ avl* chg_node(avl* root){
 		root = root->left;
 	free(tmp);
 	return root;
+}
+void print_stack(stack** top){
+	stack* tmp  = *top;
+	avl** p;
+	while(tmp){
+		p = (avl**)tmp->data;
+		tmp = tmp->link;
+	}
 }

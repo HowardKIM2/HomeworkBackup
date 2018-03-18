@@ -9,17 +9,10 @@ queue* get_queue_node(void);
 void ins_queue(queue** head,int data);
 int de_queue(queue** head);
 bool is_not_empty(queue** head);
+void print_queue(queue** head);
+void database(void);
 int main(void){
-	queue* head = NULL;
-	ins_queue(&head,10);
-	ins_queue(&head,20);
-	ins_queue(&head,30);
-	
-	printf("%d\n",de_queue(&head));
-	printf("%d\n",de_queue(&head));
-	printf("%d\n",de_queue(&head));
-	printf("%d\n",de_queue(&head));
-
+	database();
 	return 0;
 }
 queue* get_queue_node(void){
@@ -51,4 +44,54 @@ bool is_not_empty(queue** head){
 	if(*head)
 		return true;
 	return false;
+}
+void print_queue(queue** head){
+	queue* tmp = *head;
+	bool start = true;
+	while(tmp){
+		if(start){
+			printf("data : %d  <- head data\n",tmp->data);
+			start = false;
+		}
+		else
+			printf("data : %d\n",tmp->data);
+		tmp = tmp->link;
+	}
+
+}
+void database(void){
+	queue* head = NULL;
+	char ins;
+	int data;
+	bool q = false;
+
+	while(true){
+		printf("input instruction (q:Quit, i:Insert, d:Delete, p:disP) :");
+		scanf("%c%*c",&ins);
+		system("clear");
+		switch(ins){
+			case 'q':
+				q = true;
+				break;
+			case 'i':
+				printf("input data(num) : ");
+				scanf("%d%*c",&data);
+				ins_queue(&head,data);
+				printf("%d inserted\n",data);
+				break;
+			case 'd':
+				data = de_queue(&head);
+				printf("%d deleted\n",data);
+				break;
+			case 'p':
+				printf("current queue : \n");
+				print_queue(&head);
+			default :
+				break;
+		}
+		if(q)
+			break;
+	}
+	printf("quit!\n");
+
 }

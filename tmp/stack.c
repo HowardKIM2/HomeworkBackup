@@ -9,14 +9,10 @@ void push(stack** top,int data);
 stack* get_stack_node(void);
 int pop(stack **top);
 bool is_not_empty(stack** top);
+void print_stack(stack** top);
+void database(void);
 int main(void){
-	stack* top = NULL;
-	push(&top,10);
-	push(&top,20);
-	printf("%d\n",pop(&top));
-	printf("%d\n",pop(&top));
-	printf("%d\n",pop(&top));
-
+	database();
 }
 void push(stack** top,int data){
 	stack* tmp = *top;
@@ -47,4 +43,52 @@ bool is_not_empty(stack** top){
 	if(*top)
 		return true;
 	return false;
+}
+void print_stack(stack** top){
+	stack* tmp = *top;
+	bool start = true;
+	while(tmp){
+		if(start){
+			printf("data : %d  <-top data\n",tmp->data);
+			start = false;
+		}
+		else
+			printf("data : %d\n",tmp->data);
+		tmp = tmp->p_node;
+	}
+}
+void database(void){
+	stack* top = NULL;
+	char ins;
+	bool q = false;
+	int data;
+	while(true){
+		printf("Input instruction (q:Quit, i:Insert, d:Delete, p:disP) : ");
+		scanf("%c%*c",&ins);
+		system("clear");
+		switch(ins){
+			case 'q':
+				q = true;
+				break;
+			case 'i':
+				printf("input data(num) : ");
+				scanf("%d%*c",&data);
+				push(&top,data);
+				printf("%d inserted!\n",data);
+				break;
+			case 'd':
+				data = pop(&top);
+				printf("%d deleted!\n",data);
+				break;
+			case 'p':
+				printf("current stack : \n");
+				print_stack(&top);
+				break;
+			default :
+				break;
+		}
+		if(q)
+			break;
+	}
+	printf("quit!\n");
 }
