@@ -58,6 +58,8 @@ tree* get_node(void){
 	return tmp;
 }
 tree* tree_ins(tree** root,element data){
+	//get simple!!! using tree **tmp than the data loss problem solved!
+	
 	tree* b_root = *root;
 	tree* prev = *root;
 	if(!(*root)){

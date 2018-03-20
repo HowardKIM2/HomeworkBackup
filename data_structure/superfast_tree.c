@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
 typedef struct __tree
 {
 	int data;
@@ -46,8 +45,6 @@ void *pop(stack **top)
 	data = (*top)->data;
 	*top = (*top)->link;
 	free(tmp);
-
-	//return (*top)->data;
 	return data;
 }
 
@@ -113,35 +110,8 @@ void print_tree(tree **root)
 
 		push(&top, (*tmp)->right);
 		push(&top, (*tmp)->left);
-		
-		//tmp = &(*tmp)->left;
-
-		//*tmp = (tree *)pop(&top);
 	}
 }
-
-#if 0
-void print_tree(tree *root)
-{
-	if(root)
-	{
-		printf("data = %d, ", root->data);
-
-		if(root->left)
-			printf("left = %d, ", root->left->data);
-		else
-			printf("left = NULL, ");
-
-		if(root->right)
-			printf("right = %d\n", root->right->data);
-		else
-			printf("right = NULL\n");
-
-		print_tree(root->left);
-		print_tree(root->right);
-	}
-}
-#endif
 
 tree *chg_node(tree *root)
 {
@@ -197,26 +167,23 @@ void non_recur_delete_tree(tree **root, int data)
 			return;
 		}
 	}
-
 	printf("Not Found\n");
 }
 
 int main(void)
 {
-	int i;
-	int data[14] = {50, 45, 73, 32, 48, 46, 16,
-                      37, 120, 47, 130, 127, 124};
-
 	tree *root = NULL;
 
-	for(i = 0; data[i]; i++)
-		non_recur_tree_ins(&root, data[i]);
+	non_recur_tree_ins(&root, 50);
+	non_recur_tree_ins(&root, 60);
+	non_recur_tree_ins(&root, 40);
+	non_recur_tree_ins(&root, 80);
+	non_recur_tree_ins(&root, 70);
 
 	print_tree(&root);
 
 	non_recur_delete_tree(&root, 50);
 	printf("After Delete\n");
-
 	print_tree(&root);
 	
 	return 0;

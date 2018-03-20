@@ -2,6 +2,12 @@
 #include <stdlib.h>
 #include <math.h>
 #define element int
+typedef enum _rot{
+	RR,
+	RL,
+	LR,
+	LL
+}rot;
 
 typedef struct __avl{
 	element data;
@@ -11,148 +17,162 @@ typedef struct __avl{
 }avl;
 
 typedef struct __stack{
-	avl* root;
-	struct __stack *p_node;
+	avl* data;
+	struct __stack* p_node;
 }stack;
 
+
 avl* get_node(void);
-avl* avl_ins(avl** root,element data);
-void print_tree(avl** root);
-int update_level(avl** root);
-void push(stack** top,avl* root);
 stack* get_stack_node(void);
-avl* pop(stack** top);
-int chk_rotate(avl** root);
+void push(stack** top, avl* data);
+void* pop(stack** top);
+void ins_avl(avl** root,element data);
+void print_avl(avl** root);
+int update_level(avl** root);
+int chk_rot(avl** root);
+avl* rr_rot(avl** root);
+avl* test(avl* parent,avl* child){
+	avl* tmp = parent;
+	parent = child;
+	child->right = tmp;
+	return child;
+}
 
 int main(void){
 	avl* root = NULL;
-
-	root = avl_ins(&root,50);
-	root = avl_ins(&root,45);
-	root = avl_ins(&root,48);
-
-	print_tree(&root);
-
+	ins_avl(&root,50);
+	ins_avl(&root,60);
+	ins_avl(&root,70);
+	ins_avl(&root,80);
+	print_avl(&root);
 	return 0;
 }
 
 avl* get_node(void){
 	avl* tmp;
 	tmp = (avl*)malloc(sizeof(avl)*1);
-	tmp->right = NULL;
 	tmp->left = NULL;
+	tmp->right = NULL;
 	tmp->lev = 1;
-
 	return tmp;
-}
-
-avl* avl_ins(avl** root,element data){
-	avl* b_root = *root;
-	avl* prev;
-	avl* tmp = NULL;
-	stack* top = NULL;
-	if(!(*root)){
-		*root = get_node();
-		(*root)->data = data;
-		return *root;
-	}
-	else{
-		while(1){
-			if(!(*root)){
-				*root = get_node();
-				(*root)->data = data;
-				if(prev->data > data)
-					prev->left = *root;
-				else
-					prev->right = *root;
-				break;
-			}
-			else if(data < (*root)->data){
-				prev = *root;
-				push(&top,(*root));
-				(*root) = (*root)->left;
-			}
-			else if(data > (*root)->data){
-				prev = *root;
-				push(&top,(*root));
-				(*root) = (*root)->right;
-			}
-		
-		}
-	}
-	while(1){
-		tmp = pop(&top);
-		if(!tmp)
-			break;
-
-		tmp->lev = update_level(&tmp);
-		if(abs(chk_rotate(&tmp)) > 1){
-			printf("%d rotate!!\n",tmp->data);
-
-			//rotate and rotated data level update:
-		}
-	}
-	return b_root;
-}
-
-void print_tree(avl** root){
-	if(*root){
-		
-		printf("data : %d, level : %d, ",(*root)->data,(*root)->lev);
-		printf("left : ");
-		if((*root)->left)
-			printf("%d, ",(*root)->left->data);
-		else
-			printf("NULL, ");
-		if((*root)->right)
-			printf("right : %d\n",(*root)->right->data);
-		else
-			printf("right : NULL\n");
-		print_tree(&((*root)->left));
-		print_tree(&((*root)->right));
-	}
-	
-}
-
-int update_level(avl** root){
-	int left = (*root)->left ? (*root)->left->lev  : 0;
-	int right = (*root)->right ? (*root)->right->lev  : 0;
-
-	if(right > left)
-		return right + 1;
-	return left + 1;
-}
-
-void push(stack** top,avl* root){
-	stack* tmp = *top;
-	if(!(*top)){
-		(*top) = get_stack_node();
-		(*top)->root = root;
-	}
-	else{
-		(*top) = get_stack_node();
-		(*top)->root = root;
-		(*top)->p_node = tmp;
-	}
 }
 
 stack* get_stack_node(void){
 	stack* tmp;
 	tmp = (stack*)malloc(sizeof(stack)*1);
+	tmp->data = NULL;
 	tmp->p_node = NULL;
+
 	return tmp;
 }
-avl* pop(stack** top){
+void push(stack** top, avl* data){
+	stack* tmp = get_stack_node();
+	tmp->data = data;
 	if(*top){
-		avl* data = (*top)->root;
-		(*top) = (*top)->p_node;
+		tmp->p_node = *top;
+		*top = tmp;
+	}
+	else
+		*top = tmp;
+}
+void* pop(stack** top){
+	stack* tmp = *top;
+	avl* data;
+	if(*top){
+		data = tmp->data;
+		*top = tmp->p_node;
+		free(tmp);
 		return data;
 	}
+	printf("There's no stack!\n");
 	return NULL;
-}
-int chk_rotate(avl** root){
-	int right = (*root)->right ? (*root)->right->lev : 0;
-	int left = (*root)->left ? (*root)->left->lev : 0;
 	
-	return right - left;
+}
+void ins_avl(avl** root,element data){
+	avl** tmp = root;
+	avl* tmp2;
+	stack* top = NULL;
+	int chk;
+	while(*tmp){
+		if(data < (*tmp)->data){
+			push(&top,*tmp);
+			tmp = &(*tmp)->left;
+		}
+		else if(data > (*tmp)->data){
+			push(&top,*tmp);
+			tmp = &(*tmp)->right;	
+		}
+	}
+	(*tmp) = get_node();
+	(*tmp)->data = data;
+	printf("%d's stack :\n",data);
+	while(top){
+
+		
+		avl **t = (avl **)pop(&top);
+		if(*t)
+			printf("%d\n",(*t)->data);
+		//(*t)->lev = update_level(t);
+		/*
+		printf("%d\n",(*t)->data);
+		
+		chk = chk_rot(t);
+		if(abs(chk) > 1){
+			printf("%d(%d)Rotate!!\n",(*t)->data,(*t)->lev);
+		//	rr_rot(tmp);
+		}*/
+	
+	} 
+}
+
+void print_avl(avl** root){
+	if(*root){
+		printf("data : %d, lev = %d, ",(*root)->data,(*root)->lev);
+		if((*root)->left)
+			printf("left = %d, ",(*root)->left->data);
+		else
+			printf("left = NULL, ");
+
+		if((*root)->right)
+			printf("right = %d\n",(*root)->right->data);
+		else
+			printf("right = NULL\n");
+
+		print_avl(&(*root)->left);
+		print_avl(&(*root)->right);
+	}
+}
+
+int update_level(avl** root){
+	int left = (*root)->left ? (*root)->left->lev : 0 ;
+	int right = (*root)->right ? (*root)->right->lev : 0 ;
+	
+	if(left > right)
+		return left + 1;
+	return right + 1;
+}
+
+int chk_rot(avl** root){
+	int left = (*root)->left ? (*root)->left->lev : 0 ;
+	int right = (*root)->right ? (*root)->right->lev : 0 ;
+	return left - right;
+}
+
+avl* rr_rot(avl** root){
+
+	if(70 == (*root)->data)
+		root = &(*root)->right;
+
+	//free(tmp2);
+
+/*
+	(*root)->lev = update_level(root);
+	*root = (*root)->right;
+	tmp->right = (*root)->left;
+	(*root)->left = tmp;
+	(*root)->left->lev = update_level(&((*root)->left));
+	(*root)->right->lev = update_level(&((*root)->right));
+	(*root)->lev = update_level(root);
+*/
+	return *root;
 }

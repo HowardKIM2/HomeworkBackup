@@ -1,6 +1,9 @@
 #include <math.h>
+#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
 typedef enum __rot
 {
 	RR,
@@ -56,6 +59,13 @@ void print_tree(avl *root)
 	}
 }
 
+
+
+
+
+
+
+
 int update_level(avl *root)
 {
 	int left = root->left ? root->left->lev : 0;
@@ -67,6 +77,7 @@ int update_level(avl *root)
 	return right + 1;
 }
 
+
 int rotation_check(avl *root)
 {
 	int left = root->left ? root->left->lev : 0;
@@ -74,6 +85,7 @@ int rotation_check(avl *root)
 
 	return right - left;
 }
+
 
 int kinds_of_rot(avl *root, int data)
 {
@@ -127,6 +139,7 @@ avl *lr_rot(avl *parent, avl *child)
 	return ll_rot(parent, child);
 }
 
+//void rotation(avl *root, int ret)
 avl *rotation(avl *root, int ret)
 {
 	switch(ret)
@@ -159,9 +172,16 @@ void avl_ins(avl **root, int data)
 		avl_ins(&(*root)->left, data);
 	else if((*root)->data < data)
 		avl_ins(&(*root)->right, data);
+
+	//update_level(root);
 	(*root)->lev = update_level(*root);
+
 	if(abs(rotation_check(*root)) > 1)
+	{
+		printf("Insert Rotation!\n");
 		*root = rotation(*root, kinds_of_rot(*root, data));
+		//rotation(*root, kinds_of_rot(*root, data));
+	}
 }
 
 avl *chg_node(avl *root)
@@ -178,89 +198,22 @@ avl *chg_node(avl *root)
 	return root;
 }
 
-avl *find_max(avl *root, int *data)
-{
-	if(root->right)
-		root->right = find_max(root->right, data);
-	else
-	{
-		*data = root->data;
-		root = chg_node(root);
-	}
-
-	return root;
-}
-
-void avl_del(avl **root, int data)
-{
-	if(*root == NULL)
-	{
-		printf("There are no data that you find %d\n", data);
-		return;
-	}
-	else if((*root)->data > data)
-		avl_del(&(*root)->left, data);
-	else if((*root)->data < data)
-		avl_del(&(*root)->right, data);
-	else if((*root)->left && (*root)->right)
-		(*root)->left = find_max((*root)->left, &(*root)->data);
-	else
-	{
-		*root = chg_node(*root);
-		return;
-	}
-
-	(*root)->lev = update_level(*root);
-
-	if(abs(rotation_check(*root)) > 1)
-		*root = rotation(*root, kinds_of_rot(*root, data));
-}
-
 int main(void)
 {
+	int i;
 	avl *root = NULL;
+	int arr[16] = {0};
+	int size = sizeof(arr) / sizeof(int) - 1;
+
+
 
 	avl_ins(&root, 50);
 	avl_ins(&root, 60);
 	avl_ins(&root, 70);
-	avl_ins(&root, 80);
-	avl_ins(&root, 90);
-	avl_ins(&root, 100);
-	
-	printf("Before :\n");
+
 	print_tree(root);
 
-	printf("After delete 50 \n");
-	avl_del(&root,50);
-	print_tree(root);
+	
+
 	return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -65,16 +65,11 @@ int main(void)
 
 	queue *head = NULL;
 
-	srand(time(NULL));
-
-	for(i = 0; i < 3; i++)
-		enqueue(&head, (i + 1) * 10);
+		enqueue(&head,10);
+		enqueue(&head,20);
 
 	print_queue(head);
 
-	head = dequeue(head, 10);
-
-	print_queue(head);
 
 	return 0;
 }

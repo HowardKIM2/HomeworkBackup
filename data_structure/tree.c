@@ -1,13 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 typedef struct __tree
 {
 	int data;
 	struct __tree *left;
 	struct __tree *right;
 } tree;
-
 tree *get_node(void)
 {
 	tree *tmp;
@@ -16,7 +14,6 @@ tree *get_node(void)
 	tmp->right = NULL;
 	return tmp;
 }
-
 void tree_ins(tree **root, int data)
 {
 	if(*root == NULL)
@@ -30,15 +27,6 @@ void tree_ins(tree **root, int data)
 	else if((*root)->data < data)
 		tree_ins(&(*root)->right, data);
 }
-
-
-
-
-
-
-
-
-
 void print_tree(tree *root)
 {
 	if(root)
@@ -59,9 +47,6 @@ void print_tree(tree *root)
 		print_tree(root->right);
 	}
 }
-
-
-
 tree *chg_node(tree *root)
 {	
 	tree *tmp = root;
@@ -107,30 +92,50 @@ tree *delete_tree(tree *root, int data)
 		root->left = find_max(root->left, &num);
 		root->data = num;
 	}
-	else
+	else{
 		root = chg_node(root);
+	}
 	return root;
 }
-
-
-
 int main(void)
 {
-	int i;
-	int data[7] = {50, 45, 48, 32, 46, 72};
-
 	tree *root = NULL;
-
-	for(i = 0; data[i]; i++)
-		tree_ins(&root, data[i]);
-
+	tree_ins(&root, 10);
+	tree_ins(&root, 20);
+	tree_ins(&root, 30);
+	tree_ins(&root, 5);
 	print_tree(root);
 
-	delete_tree(root, 50);
+	delete_tree(root, 20);
 	printf("After Delete\n");
-
 	print_tree(root);
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
