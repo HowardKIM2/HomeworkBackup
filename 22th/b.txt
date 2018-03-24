@@ -1,0 +1,7 @@
+1st raw's ascii sum : 433
+2nd raw's ascii sum : 609
+3rd raw's ascii sum : 513
+4th raw's ascii sum : 530
+5th raw's ascii sum : 1086
+6th raw's ascii sum : 653
+7th raw's ascii sum : 1109
