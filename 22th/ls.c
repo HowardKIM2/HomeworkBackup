@@ -23,8 +23,20 @@ void adj_l_opt(struct dirent* p);
 int main(int argc,char** argv){
 	char* ins = "alR";
 	int flag;
+	char* s_dir;
+
+	//search otehr directory 
+	//ex)ls ../.. -alR
+	if(argv[1][0] != '-')
+		s_dir = argv[1];
+	else
+		s_dir = ".";
+	
+	//set flag
 	flag = read_ls_opt(argc,argv,ins);
-	ls_start(flag,".");
+	
+	//ls start path in c_dir, with flag option.
+	ls_start(flag,s_dir);
 	
 	
 	return 0;
@@ -67,6 +79,7 @@ void ls_start(int flag,char* dname){
 			if(p->d_name[0] == '.')
 				continue;
 		}
+
 		//-l option chkeck.
 		if(flag & 0b00000010){
 			adj_l_opt(p);
@@ -89,7 +102,6 @@ void ls_start(int flag,char* dname){
 		rewinddir(dp);
 		while(p = readdir(dp)){
 			stat(p->d_name,&buf);
-
 			if(S_ISDIR(buf.st_mode))
 				if(strcmp(p->d_name,".") && strcmp(p->d_name,".."))
 					ls_start(flag,p->d_name);
