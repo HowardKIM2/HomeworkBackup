@@ -1,0 +1,6 @@
+index	    name	score
+    1	 Sheldon	 100
+    2	 Leonard	  90
+    3	  Howard	  80
+    4	  Rachel	  80
+    5	   Reina	 100

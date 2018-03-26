@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
 int main(int arcv, char** argv){
 	int fd,ret;
 	char buf[1024];
@@ -14,6 +15,6 @@ int main(int arcv, char** argv){
 		write(1,buf,ret);
 	}
 	close(fd);
-
+	printf("%d\n",atoi("123"));
 	return 0;
 }

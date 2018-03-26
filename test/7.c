@@ -19,7 +19,7 @@ void multiple(int (*mat1)[3],int (*mat2)[3],int (*res)[3]){
 		for(j = 0;j < 3;j++){
 			res[i][j] = 0;
 			for(k = 0;k < 3;k++){
-				res[i][j] += mat1[i][k] + mat2[k][j];
+				res[i][j] += mat1[i][k]* mat2[k][j];
 			}
 		}
 	}

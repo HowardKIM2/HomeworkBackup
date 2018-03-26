@@ -207,7 +207,7 @@ void open_db_file(queue** head,int* fd,char* path){
 	int index = 1, i = 0, flag = 0;
 	int len;
 	student st;
-#if 0 
+#if 1 
 	//파일 읽어오기. 미완성
 	//'\t'으로 문자 구분, '\n'으로 data 구분
 	//student 구조체 변수의 name, score에 저장.

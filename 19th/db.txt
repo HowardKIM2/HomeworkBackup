@@ -1,0 +1,4 @@
+index	    name	score
+    1	    aaaa	 100
+    2	    bbbb	  10
+    3	      FF	  60

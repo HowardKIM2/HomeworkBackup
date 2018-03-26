@@ -10,11 +10,10 @@ int main(void){
 }
 double dac(int sig){
 	int minV = -5, maxV = 5, bit = 12;
-	int maxSig = 2047; //-2^11 ~ 2^11-1
-	int minSig = -2048;
+	int maxSig = 4095;
 	double v;
 
-	v = (double)maxV/maxSig*sig;
+	v = minV + (double)(maxV-minV)/maxSig*sig;
 	return v;
 
 }
