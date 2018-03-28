@@ -3,13 +3,14 @@
 int CreateSEM(key_t semkey){
 	int status = 0,semid;
 	//IPC : inter process communication.
-	if((semid = semget(semkey, 1, SEMPERM|IPC_CREAT|IPC_EXCL)) == 1){
+	if((semid = semget(semkey, 1, SEMPERM|IPC_CREAT|IPC_EXCL)) == -1){
 		if(errno == EEXIST){
 			semid = semget(semkey, 1, 0);
 		}
 	}
-	else
-			status = semctl(semid, 0, SETVAL, 2);
+	else{
+		status = semctl(semid, 0, SETVAL, 2);
+	}
 	if(semid == -1 || status == -1)
 		return -1;
 	return semid;
