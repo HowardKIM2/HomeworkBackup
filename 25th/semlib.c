@@ -5,10 +5,13 @@ int CreateSEM(key_t semkey){
 	//IPC : inter process communication.
 	if((semid = semget(semkey, 1, SEMPERM|IPC_CREAT|IPC_EXCL)) == -1){
 		if(errno == EEXIST){
+			printf("db1 : %d\n",semid);
 			semid = semget(semkey, 1, 0);
+			printf("db1-1 : %d\n",semid);
 		}
 	}
 	else{
+		printf("db2 : %d\n",semid);
 		status = semctl(semid, 0, SETVAL, 2);
 	}
 	if(semid == -1 || status == -1)

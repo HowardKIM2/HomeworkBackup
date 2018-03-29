@@ -6,14 +6,15 @@
 
 void my_sig(int signo){
 	printf("You must insert coin\n");
-	exit(0);
+//	exit(0);
 }
 int main(void){
 	char buf[1024];
 	int ret;
+	while(1){
 	signal(SIGALRM,my_sig);
-	alarm(3);
+	alarm(1);
 	read(0,buf,sizeof(buf));
-	alarm(0);
+	}
 	return 0;
 }
