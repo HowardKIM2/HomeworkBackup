@@ -13,35 +13,15 @@ void disp_stack(stack **top);
 int main(void){
 	stack* top = NULL;
 	char ch;
-	element data;
-	while(1){
-		printf("Instruction quit(q), insert(i), pop(d), disp(d) :");
-		scanf("%c%*c",&ch);
-		system("clear");
-		switch(ch){
-			case 'q':
-				printf("quit!\n");
-				break;
-			case 'i':
-				printf("data : ");
-				scanf("%d%*c",&data);
-				push(&top,data);
-				printf("data %d inserted!\n",data);
-				break;
-			case 'd':
-				printf("data %d deleted!\n",pop(&top));
-				break;
-			case 'p':
-				printf("current stack :\n");
-				disp_stack(&top);
-				break;
-		}
-		
-		if(ch=='q')
-			break;
-	}
+	
+	push(&top, 10);
+	push(&top, 20);
+	push(&top, 30);
+	disp_stack(&top);
 
-
+	pop(&top);
+	disp_stack(&top);
+	
 	return 0;
 }
 

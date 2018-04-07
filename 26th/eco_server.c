@@ -17,7 +17,8 @@ void err_handler(char* msg){
 int main(int argc,char** argv){
 	int serv_sock;
 	int clnt_sock;
-
+	int read_len;
+	
 	si serv_addr;
 	si clnt_addr;
 	socklen_t clnt_addr_size;
@@ -29,7 +30,7 @@ int main(int argc,char** argv){
 	}
 	//sock file descriptor
 	serv_sock = socket(PF_INET, SOCK_STREAM, 0);
-	printf("1 :\n");
+
 	if(serv_sock == -1)
 		err_handler("socket() error");
 	
@@ -37,26 +38,23 @@ int main(int argc,char** argv){
 	serv_addr.sin_family = AF_INET;
 	serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	serv_addr.sin_port = htons(atoi(argv[1]));
+
 	//bind : server ip address setting
 	if(bind(serv_sock, (sap)&serv_addr, sizeof(serv_addr)) == -1)
 		err_handler("bind() error");
 	//listen : max people , wait client.
-	
-	printf("2 :\n");
 	if(listen(serv_sock, 5) == -1)
 		err_handler("listen() error");
-
-	printf("3 :\n");
+	
 	clnt_addr_size = sizeof(clnt_addr);
 	//client permit.
 	clnt_sock = accept(serv_sock, (struct sockaddr *)&clnt_addr, &clnt_addr_size);
 	if(clnt_sock == -1)
 		err_handler("accept() error");
-
-	printf("4 : \n");
+	
 	write(clnt_sock, msg, sizeof(msg));
+	
 	
 	close(clnt_sock);
 	close(serv_sock);
-
 }

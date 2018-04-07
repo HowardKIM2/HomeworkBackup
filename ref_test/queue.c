@@ -11,49 +11,17 @@ queue* get_node(void);
 void enqueue(queue** top,element data);
 int dequeue(queue** top);
 void disp_queue(queue** top);
-char _getch(void);
-int _getData(void);
 int main(void){
 	queue* top = NULL;
 	char ch;
 	element data;
-	int i;
 
-	for(i=0;i<6300;i++){
-		enqueue(&top,i);
-	}
-	printf("6,300 times inserted!\n");
-
-	while(0){
-		
-		printf("명령어 입력(quit('q'),insert('i'),display('p'),dequeue('d')) : ");
-		ch = _getch();
-		system("clear");
-		switch(ch){
-			case 'q':
-				printf("quit!!\n");
-				break;
-			case 'i':
-				printf("input(int type data) : ");
-				data = _getData();
-				enqueue(&top,data);
-				printf("data %d inserted\n",data);
-				break;
-			case 'p':
-				printf("current queue :\n");
-				disp_queue(&top);
-				break;
-			case 'd':
-				printf("dequeue : %d\n",dequeue(&top));
-				break;
-			default:
-				printf("wrong instruction!!\n");
-				break;
-		}
-		if(ch == 'q')
-			break;
-		printf("\n\n");
-	}
+	enqueue(&top,10);
+	enqueue(&top,20);
+	enqueue(&top,30);
+	disp_queue(&top);
+	dequeue(&top);
+	disp_queue(&top);
 	
 	return 0;
 }
@@ -71,9 +39,7 @@ void enqueue(queue** top,element data){
 		*top = tmp;
 	}
 	else
-		enqueue(&((*top)->p_node),data);
-	
-	
+		enqueue(&((*top)->p_node),data);	
 }
 int dequeue(queue** top){
 	element data;
@@ -91,15 +57,4 @@ void disp_queue(queue** top){
 		printf("data : %d\n",tmp->data);
 		tmp = tmp->p_node;
 	}
-}
-char _getch(void){
-	char buf,ch;
-	while((buf = getchar())!=10)
-		ch = buf;
-	return ch;
-}
-int _getData(void){
-	int buf,data;
-	scanf("%d%*c",&data);
-	return data;
 }

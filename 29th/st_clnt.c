@@ -56,7 +56,8 @@ int main(int argc,char** argv){
 }
 void write_routine(int sock, char* buf,data d){
 	for(;;){
-		scanf("%s%d",d.name,&d.score);
+		
+		read(sock, &d, sizeof(d));
 		if(!strcmp(buf, "q\n") || !strcmp(buf, "Q\n")){
 			shutdown(sock, SHUT_WR);
 			return ;
@@ -67,11 +68,11 @@ void write_routine(int sock, char* buf,data d){
 }
 void read_routine(int sock,char* buf, data* d){
 	for(;;){
-		int str_len = read(sock, buf, BUF_SIZE);
+		int str_len = read(sock, d, sizeof(d));
 		if(str_len == 0)
 			return;
 		buf[str_len] = '\0';
-		printf("struct from server : %s",buf);
+		printf("struct from server : %s,%d",d->name,d->score);
 	}
 }
 void err_handler(char* msg){

@@ -93,8 +93,6 @@ int main(int argc, char **argv)
 	//bind(), listen(), set clnt_addr_size value
 	init_sock(&serv_addr, &clnt_addr_size, &serv_sock, port, clnt_addr);
 	
-	//record.txt to queue
-	open_record(&fd,&head);
 
 	//connection check.
 	for(i = 0; i < 30; i++)
@@ -102,6 +100,9 @@ int main(int argc, char **argv)
 		//parent process only does wait for clients connecting.
 		clnt_sock = accept(serv_sock, (sap)&clnt_addr, &clnt_addr_size);	
 	
+		//record.txt to queue
+		open_record(&fd,&head);
+		
 		if((pid = fork()) > 0){
 			printf("i : %d, child pid : %d, parent(me) pid : %ld\n",
 												i,pid,(long)getpid());
