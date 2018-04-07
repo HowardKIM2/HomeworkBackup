@@ -33,17 +33,10 @@ stack* get_node(void){
 }
 
 void push(stack** top,element data){
-	stack* tmp;
-	if(!(*top)){
-		*top = get_node();
-		(*top)->data = data;
-	}
-	else{
-		tmp = *top;
-		(*top) = get_node();
-		(*top)->data = data;
-		(*top)->p_node = tmp;
-	}
+	stack* tmp = *top;
+	*top = get_node();
+	(*top)->data = data;
+	(*top)->p_node = tmp;
 }
 int pop(stack** top){
 	element data;
