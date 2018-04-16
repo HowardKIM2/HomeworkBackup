@@ -5,7 +5,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/wait.h>
-
+void child_process(void);
 int main(void){
 	pid_t pid;
 	int status;
@@ -14,11 +14,14 @@ int main(void){
 		printf("status : 0x%x\n", status&0x7f);
 	}
 	else if(pid == 0)
-		abort();
+		child_process();
 	else{
 		perror("fork()");
 		exit(-1);
 	}
 	return 0;
 
+}
+void child_process(void){
+	abort();
 }

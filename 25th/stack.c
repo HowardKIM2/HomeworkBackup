@@ -12,11 +12,8 @@ typedef struct __queue{
 
 void ins_queue(queue** head,int data){
 	int idx = (*head)->idx;
-	if(idx != 4096){
-		(*head)->data[idx] = data;
-		(*head)->idx = (*head)->idx + 1;
-	}
-
+	(*head)->data[idx++] = data;
+	(*head)->idx = idx;
 }
 
 queue* init_queue(void){
@@ -29,18 +26,23 @@ queue* init_queue(void){
 void print_queue(queue** head){
 	queue* tmp = *head;
 	int i;
+	int j = 0;
+	
 	for(i=0;i<tmp->idx;i++){
-		printf("data : %d\n",tmp->data[i]);
+		if((i == tmp->del_arr[j])&&(j < tmp->d_idx)){
+			j++;
+			continue;
+		}
+		printf("data[%d] : %d\n",i,(*head)->data[i]);
 	}
 }
 
 void del_queue(queue** head,int data){
 	int del_idx = -1;
 	int i;
-	int* del_p;
 	queue* tmp = *head;
 	//find del_data's idx
-	for(i=0;tmp->idx;i++){
+	for(i=0;i<tmp->idx;i++){
 		if(tmp->data[i] == data){
 			del_idx = i;
 			break;
@@ -53,18 +55,6 @@ void del_queue(queue** head,int data){
 		return;
 	}
 	
-#endif
-
-#if 0
-	//defficient methode.
-	for(i=del_idx;i<tmp->idx-1;i++)
-		tmp->data[i] = tmp->data[i+1];
-	(*head)->idx = (*head)->idx - 1;
-#endif
-
-#if 0
-	//very defficient methode.
-	memmove(&tmp->data[del_idx], &tmp->data[del_idx+1], tmp->idx - del_idx);
 #endif
 	tmp->del_arr[tmp->d_idx] = del_idx;
 	tmp->d_idx = tmp->d_idx+1;
@@ -113,16 +103,18 @@ int main(void){
 	ins_data_to_queue(&head,data);
 	printf("\ndata in queue : \n");
 	print_queue(&head);
-
+#if 1
 	del_queue(&head,data[2]);
 	del_queue(&head,data[3]);
 	del_queue(&head,data[4]);
 
-	printf("\ndata in queue : after delete %d, %d, %d\n",
-			data[2],data[3],data[4]);
+	//printf("\ndata in queue : after delete %d, %d, %d\n",
+	//		data[2],data[3],data[4]);
+	printf("\n");
 
 	print_queue(&head);
 	printf("\n%d\n",head->del_arr[0]);
 	printf("\n%d\n",head->del_arr[1]);
 	printf("\n%d\n",head->del_arr[2]);
+#endif
 }

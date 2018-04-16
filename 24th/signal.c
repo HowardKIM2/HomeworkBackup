@@ -19,8 +19,10 @@ int main(void){
 	pause();
 	old_p2 = signal(SIGINT, old_p2);
 	pause();
-	for(;;)
+	for(;;){
 		pause();
+		printf("loop\n");
+	}
 	return 0;
 
 }

@@ -1,0 +1,1 @@
+cmd_/home/howard/HomeworkBackup/36th/hello_module.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/howard/HomeworkBackup/36th/hello_module.ko /home/howard/HomeworkBackup/36th/hello_module.o /home/howard/HomeworkBackup/36th/hello_module.mod.o ;  true
