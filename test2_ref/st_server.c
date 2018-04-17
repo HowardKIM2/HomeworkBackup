@@ -14,7 +14,6 @@ void err_handler(char* msg){
 	fputs(msg, stderr);
 	fputc('\n', stderr);
 	exit(1);
-
 }
 
 int main(int argc,char** argv){

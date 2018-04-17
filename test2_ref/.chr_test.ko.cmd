@@ -1,0 +1,1 @@
+cmd_/home/howard/HomeworkBackup/test2_ref/chr_test.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/howard/HomeworkBackup/test2_ref/chr_test.ko /home/howard/HomeworkBackup/test2_ref/chr_test.o /home/howard/HomeworkBackup/test2_ref/chr_test.mod.o ;  true
