@@ -1,5 +1,6 @@
 #include <signal.h>
 #include <stdio.h>
+#include <stdlib.h>
 void sig_handler(int signo);
 int main(void){
 	signal(SIGINT, SIG_IGN);
